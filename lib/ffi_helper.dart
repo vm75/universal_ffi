@@ -1,5 +1,5 @@
 /// Useful helpers for working with Foreign Function Interface (FFI).
-library universal_ffi_helper;
+library;
 
 import 'ffi.dart';
 import 'ffi_utils.dart';
@@ -7,7 +7,8 @@ import 'src/wasm_ffi/_ffi_helper.dart'
     if (dart.library.ffi) 'src/dart_ffi/_ffi_helper.dart';
 
 export 'src/wasm_ffi/_ffi_helper.dart'
-    if (dart.library.ffi) 'src/dart_ffi/_ffi_helper.dart' show appType;
+    if (dart.library.ffi) 'src/dart_ffi/_ffi_helper.dart'
+    show appType;
 
 /// The type of the current app.
 ///
@@ -21,21 +22,9 @@ export 'src/wasm_ffi/_ffi_helper.dart'
 /// - [windows]: Windows.
 /// - [web]: Web.
 /// - [unknown]: Unknown.
-enum AppType {
-  android,
-  ios,
-  linux,
-  macos,
-  windows,
-  web,
-  unknown,
-}
+enum AppType { android, ios, linux, macos, windows, web, unknown }
 
-enum LoadOption {
-  isStaticallyLinked,
-  isFfiPlugin,
-  isStandaloneWasm,
-}
+enum LoadOption { isStaticallyLinked, isFfiPlugin, isStandaloneWasm }
 
 /// Extension on [DynamicLibrary] with asynchronous methods.
 extension AsyncDynamicLibrary on DynamicLibrary {
@@ -107,9 +96,7 @@ class FfiHelper {
       return FfiHelper._(DynamicLibrary.process());
     }
 
-    return FfiHelper._(
-      await DynamicLibrary.open(modulePath),
-    );
+    return FfiHelper._(await DynamicLibrary.open(modulePath));
   }
 
   /// Safely runs the provided [computation] function within an [Arena],

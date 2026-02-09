@@ -1,3 +1,6 @@
+## [1.3.0]
+* Update sdk version
+
 ## [1.2.0]
 * Use wasm_ffi 2.1.0. Fix bug in resolveModulePath. Clean-up examples.
 
