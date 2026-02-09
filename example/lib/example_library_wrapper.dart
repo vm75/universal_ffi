@@ -3,15 +3,16 @@ import 'package:universal_ffi/ffi_helper.dart';
 import 'package:universal_ffi/ffi_utils.dart';
 import 'native_example_bindings.dart';
 
-class Example {
+class ExampleLibraryWrapper {
   final FfiHelper helper;
   final NativeExampleBindings bindings;
 
-  Example._(this.helper) : bindings = NativeExampleBindings(helper.library);
+  ExampleLibraryWrapper._(this.helper)
+      : bindings = NativeExampleBindings(helper.library);
 
-  static Future<Example> create(String libPath) async {
+  static Future<ExampleLibraryWrapper> create(String libPath) async {
     final helper = await FfiHelper.load(libPath);
-    return Example._(helper);
+    return ExampleLibraryWrapper._(helper);
   }
 
   String getLibraryName() =>

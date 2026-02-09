@@ -266,10 +266,10 @@ packages:
     dependency: transitive
     description:
       name: wasm_ffi
-      sha256: f4539052e4d80575bb4820c836a2d6400af061b71c1605af60ebfb30b7c5369a
+      sha256: bb58f268afc14f2591b9d15c797e74ad7f14696f2b87f0d49e00cf41bde0dc7a
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.7"
+    version: "2.1.0"
   web:
     dependency: transitive
     description:

@@ -27,7 +27,7 @@ String resolveModulePath(String modulePath, Set<LoadOption> options) {
   final moduleName = path.basenameWithoutExtension(modulePath);
 
   if (isFfiPlugin) {
-    return 'assets/packages/$moduleName/assets/$moduleName$ext';
+    return 'assets/packages/$moduleName/assets/$modulePath';
   }
 
   return modulePath;

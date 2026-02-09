@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 
 default: build
 
-build: web/assets/native_example.js lib/native_example_bindings.dart \
+build: web/assets/emscripten/native_example.js web/assets/standalone/native_example.wasm lib/native_example_bindings.dart \
 	assets/libnative_example.so assets/native_example.dll assets/libnative_example.dylib
 
 SRC=src/native_example.c
@@ -22,20 +22,32 @@ endif
 COMPILED_EXPORTS="EXPORTED_FUNCTIONS=[\"_malloc\", \"_free\"]"
 
 clean:
+	rm -f web/assets/emscripten/native_example.* web/assets/standalone/native_example.wasm
 ifeq ($(UNAME_S), Linux)
 	rm -f assets/libnative_example.so
 	rm -f assets/native_example.dll
-elifneq ($(filter Darwin,$(UNAME_S)),)
+else ifeq  ($(filter Darwin,$(UNAME_S)),)
 	rm -f assets/libnative_example.dylib
 endif
 
 lib/native_example_bindings.dart: $(DEPS)
 	dart run ffigen --config ffigen.yaml && sed -i "s#'dart:ffi'#'package:universal_ffi/ffi.dart'#g" $@
 
-web/assets/native_example.js: $(DEPS) lib/native_example_bindings.dart
-	emcc -o web/assets/native_example.js $(COMPILER_OPTIONS) $(LINKER_OPTIONS) \
+web/assets/emscripten/native_example.js: $(DEPS) lib/native_example_bindings.dart
+	emcc -o web/assets/emscripten/native_example.js $(COMPILER_OPTIONS) $(LINKER_OPTIONS) \
 		$(SRC) \
 		-s MODULARIZE=1 -s 'EXPORT_NAME="native_example"' -s ALLOW_MEMORY_GROWTH=1 \
+		-s ENVIRONMENT='web,worker' \
+		-s FILESYSTEM=0 \
+		-s EXPORTED_RUNTIME_METHODS=HEAPU8 \
+		-s $(COMPILED_EXPORTS)
+
+web/assets/standalone/native_example.wasm: $(DEPS) lib/native_example_bindings.dart
+	emcc -o web/assets/standalone/native_example.wasm $(COMPILER_OPTIONS) $(LINKER_OPTIONS) \
+		$(SRC) \
+		-s STANDALONE_WASM=1 \
+		-s ENVIRONMENT='web,worker' \
+		-s FILESYSTEM=0 \
 		-s $(COMPILED_EXPORTS)
 
 assets/libnative_example.so: $(DEPS)

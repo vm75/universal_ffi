@@ -1,3 +1,6 @@
+## [1.2.0]
+* Use wasm_ffi 2.1.0. Fix bug in resolveModulePath. Clean-up examples.
+
 ## [1.1.3]
 * Remove pubspec.lock from package
 

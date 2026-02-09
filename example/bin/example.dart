@@ -1,4 +1,4 @@
-import 'package:example/example.dart';
+import 'package:example/example_library_wrapper.dart';
 
 void printValue(String id, String value) {
   // ignore: avoid_print
@@ -6,7 +6,7 @@ void printValue(String id, String value) {
 }
 
 void main(List<String> arguments) {
-  Example.create('assets/native_example').then((runner) {
+  ExampleLibraryWrapper.create('assets/native_example').then((runner) {
     printValue('Library Name', runner.getLibraryName());
     printValue('Hello String', runner.hello('universal_ffi'));
     printValue('Size of Int', runner.intSize().toString());

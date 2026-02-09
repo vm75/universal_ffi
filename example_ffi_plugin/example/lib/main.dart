@@ -33,7 +33,10 @@ class HomePage extends StatelessWidget {
       body: const Column(
         children: [
           Expanded(
-            child: AsyncRunnerWidget(),
+            child: AsyncRunnerWidget('emscripten/native_example.js'),
+          ),
+          Expanded(
+            child: AsyncRunnerWidget('standalone/native_example.wasm'),
           ),
         ],
       ),
@@ -42,7 +45,8 @@ class HomePage extends StatelessWidget {
 }
 
 class AsyncRunnerWidget extends StatefulWidget {
-  const AsyncRunnerWidget({super.key});
+  final String libPath;
+  const AsyncRunnerWidget(this.libPath, {super.key});
 
   @override
   State<AsyncRunnerWidget> createState() => _AsyncRunnerWidgetState();
@@ -53,10 +57,10 @@ class _AsyncRunnerWidgetState extends State<AsyncRunnerWidget> {
 
   // Simulated asynchronous runner.
   Future<Map<String, String>> fetchValues() async {
-    await init();
+    await init(widget.libPath);
     return {
       'Library Name': getLibraryName(),
-      'Hello String': hello('universal_ffi'),
+      'Hello String': hello(widget.libPath),
       'Size of Int': sizeOfInt().toString(),
       'Size of Bool': sizeOfBool().toString(),
       'Size of Pointer': sizeOfPointer().toString(),
@@ -88,9 +92,10 @@ class _AsyncRunnerWidgetState extends State<AsyncRunnerWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Test universal-ffi',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                'Test ${widget.libPath}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               if (_data.isEmpty)

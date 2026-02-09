@@ -9,10 +9,10 @@ import 'native_example_bindings.dart';
 late final FfiHelper _ffiHelper;
 late final NativeExampleBindings _bindings;
 
-Future<bool> init() async {
+Future<bool> init(String libPath) async {
   try {
     _ffiHelper = await FfiHelper.load(
-      'native_example',
+      libPath,
       options: {LoadOption.isFfiPlugin},
     );
 

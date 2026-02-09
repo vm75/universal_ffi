@@ -37,4 +37,5 @@ flutter:
       web:
 
   assets:
-    - assets/
+    - assets/standalone/
+    - assets/emscripten/
