@@ -4,9 +4,7 @@ version:
 	bash ./tool/update-version.sh
 
 build:
-	cp -f example/src/* example_ffi_plugin/src/
-	cd example && make build
-	cp -rf example/web/assets/* example_ffi_plugin/assets/
+	cd example_ffi_plugin && make build
 
 run-web:
 	cd example && make run-wasm

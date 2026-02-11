@@ -12,5 +12,6 @@ void main(List<String> arguments) {
     printValue('Size of Int', runner.intSize().toString());
     printValue('Size of Bool', runner.boolSize().toString());
     printValue('Size of Pointer', runner.pointerSize().toString());
+    printValue('Static Init Check', runner.staticInitCheck().toString());
   });
 }

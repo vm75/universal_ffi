@@ -32,4 +32,6 @@ class ExampleLibraryWrapper {
   int boolSize() => bindings.boolSize();
 
   int pointerSize() => bindings.pointerSize();
+
+  bool staticInitCheck() => bindings.static_init_check() != 0;
 }

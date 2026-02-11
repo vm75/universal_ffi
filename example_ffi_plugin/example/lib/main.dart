@@ -13,9 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wasm FFI Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const HomePage(),
     );
   }
@@ -27,17 +25,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('universal_ffi tests'),
-      ),
+      appBar: AppBar(title: const Text('universal_ffi tests')),
       body: const Column(
         children: [
-          Expanded(
-            child: AsyncRunnerWidget('emscripten/native_example.js'),
-          ),
-          Expanded(
-            child: AsyncRunnerWidget('standalone/native_example.wasm'),
-          ),
+          Expanded(child: AsyncRunnerWidget('emscripten/native_example.js')),
+          Expanded(child: AsyncRunnerWidget('standalone/native_example.wasm')),
         ],
       ),
     );
@@ -64,6 +56,7 @@ class _AsyncRunnerWidgetState extends State<AsyncRunnerWidget> {
       'Size of Int': sizeOfInt().toString(),
       'Size of Bool': sizeOfBool().toString(),
       'Size of Pointer': sizeOfPointer().toString(),
+      'Static Init Check': staticInitCheck().toString(),
     };
   }
 
@@ -94,8 +87,10 @@ class _AsyncRunnerWidgetState extends State<AsyncRunnerWidget> {
             children: [
               Text(
                 'Test ${widget.libPath}',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 10),
               if (_data.isEmpty)

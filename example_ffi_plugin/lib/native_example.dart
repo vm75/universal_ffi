@@ -28,12 +28,10 @@ String getLibraryName() =>
     _bindings.getLibraryName().cast<Utf8>().toDartString();
 
 String hello(String name) {
-  return _ffiHelper.safeUsing(
-    (Arena arena) {
-      final cString = name.toNativeUtf8(allocator: arena).cast<Char>();
-      return _bindings.hello(cString).cast<Utf8>().toDartString();
-    },
-  );
+  return _ffiHelper.safeUsing((Arena arena) {
+    final cString = name.toNativeUtf8(allocator: arena).cast<Char>();
+    return _bindings.hello(cString).cast<Utf8>().toDartString();
+  });
 }
 
 int sizeOfInt() {
@@ -46,4 +44,8 @@ int sizeOfBool() {
 
 int sizeOfPointer() {
   return _bindings.pointerSize();
+}
+
+bool staticInitCheck() {
+  return _bindings.static_init_check() != 0;
 }

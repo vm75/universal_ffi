@@ -212,6 +212,8 @@ emcc -o path/to/moduleName.wasm \
     -s EXPORTED_FUNCTIONS='["_malloc", "_free", "_your_function"]'
 ```
 
+**Crucial:** You **MUST** include `--export=__wasm_call_ctors` if you are using C++ to ensure static constructors run.
+
 #### Naming Convention
 
 * **Emscripten JS**: Output `moduleName.js` (and `moduleName.wasm` will be generated next to it).

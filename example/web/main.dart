@@ -24,6 +24,8 @@ Future<Element> runTests(String source, String name) async {
   container.append(createKeyVal('Size of Bool', runner.boolSize().toString()));
   container
       .append(createKeyVal('Size of Pointer', runner.pointerSize().toString()));
+  container.append(
+      createKeyVal('Static Init Check', runner.staticInitCheck().toString()));
   return container;
 }
 

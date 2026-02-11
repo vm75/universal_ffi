@@ -1,3 +1,6 @@
+## [1.4.0]
+* Using wasm_ffi 2.2.0 with c++ init support
+
 ## [1.3.0]
 * Update sdk version
 
