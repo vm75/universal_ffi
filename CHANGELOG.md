@@ -1,47 +1,69 @@
+# CHANGELOG
+
+## [1.5.0]
+
+* Using wasm_ffi 2.3.0 with important memory fix
+
 ## [1.4.0]
+
 * Using wasm_ffi 2.2.0 with c++ init support
 
 ## [1.3.0]
+
 * Update sdk version
 
 ## [1.2.0]
+
 * Use wasm_ffi 2.1.0. Fix bug in resolveModulePath. Clean-up examples.
 
 ## [1.1.3]
+
 * Remove pubspec.lock from package
 
 ## [1.1.2]
+
 * Pulling universal_ffi into a separate repo from wasm_ffi
 
 ## [1.1.1]
+
 * Adding topics for pub.dev
 
 ## [1.1.0]
+
 * Changed load options to enum
 
 ## [1.0.8]
+
 * Fix missing allocator for non-web
 
 ## [1.0.7]
+
 * Deprecating DynamicLibrary.memory in favour of DynamicLibrary.allocator
 
 ## [1.0.6]
+
 * Changed options to hyphenated
 
 ## [1.0.5]
+
 * Renamed some options. defaulting to wasm with js
 
 ## [1.0.4]
+
 * Fixing documentation issues
 
 ## [1.0.3]
+
 * Fix pub validation errors
 
 ## [1.0.2]
+
 * Updated readme
 
 ## [1.0.1]
+
 * Fixed some urls
 
 ## [1.0.0]
+
 * Pulled out universal_ffi from wasm_ffi
