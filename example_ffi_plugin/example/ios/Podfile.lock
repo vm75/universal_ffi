@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/native_example/ios"
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  native_example: d3b4ff2f1174727392836287c1430a9fdf08f7e3
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  native_example: 13c00769d60be30db68d31656f027dca5fcdd5ea
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: a57f30d18f102dd3ce366b1d62a55ecbef2158e5
 
 COCOAPODS: 1.16.2
