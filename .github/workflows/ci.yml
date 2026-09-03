@@ -41,7 +41,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze package
-        run: dart analyze
+        run: dart analyze lib test example
 
       - name: Run VM tests
         run: dart test
@@ -53,6 +53,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
+      - name: Analyze Flutter plugin
+        working-directory: example_ffi_plugin
+        run: |
+          flutter pub get
+          flutter analyze
 
       - name: Analyze Flutter plugin example
         working-directory: example_ffi_plugin/example
