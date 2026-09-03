@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.5.1]
+
+* Update minimum `wasm_ffi` dependency to `^2.4.0`.
+* Inherit dart2wasm and Flutter `--wasm` support for standalone WebAssembly modules via `wasm_ffi 2.4.0`.
+* Add comprehensive unit and integration test coverage across Web/Native path resolution, `FfiHelper` allocator safety, and standalone Wasm invocation.
+* Harden CI workflows with PR validation, static analysis, dry-run checks, and fix publish workflow changelog path inspection.
+
 ## [1.5.0]
 
 * Using wasm_ffi 2.3.0 with important memory fix

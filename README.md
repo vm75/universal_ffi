@@ -8,26 +8,33 @@
 [![universal_ffi_pub_likes]][universal_ffi_pub_score_url]
 [![license_badge]][license_url]
 
-`universal_ffi` is a wrapper on top of `wasm_ffi` and `dart:ffi` to provide a consistent API across all platforms.
-It also has some helper methods to make it easier to use.
+`universal_ffi` is a thin cross-platform facade on top of `wasm_ffi` (for Web) and `dart:ffi` (for native platforms) to provide a consistent API across all platforms.
+It also includes helper utilities for platform-aware library loading and memory management.
 
-`wasm_ffi` has a few limitations, so some of the features of `dart:ffi` are not supported. Most notably:
+With `wasm_ffi 2.4.0`, `universal_ffi` supports standalone WebAssembly modules when the consuming Dart or Flutter Web application itself is compiled with `dart2wasm` / Flutter `--wasm`, in addition to standard Dart Web (dart2js) and native desktop/mobile platforms. Low-level WebAssembly marshalling and runtime mechanics are managed by `wasm_ffi`.
+
+`wasm_ffi` has a few limitations, so some features of `dart:ffi` are not supported on Web:
 
 * Array
 * Struct
 * Union
 
+## Requirements
+
+- Dart SDK: `^3.10.8`
+- Flutter SDK (for Flutter plugins): `>=3.3.0`
+
 ## Usage
 
 ### Install
 
-```dart
+```sh
 dart pub add universal_ffi
 ```
 
 or
 
-```dart
+```sh
 flutter pub add universal_ffi
 ```
 
@@ -218,6 +225,28 @@ emcc -o path/to/moduleName.wasm \
 
 * **Emscripten JS**: Output `moduleName.js` (and `moduleName.wasm` will be generated next to it).
 * **Standalone WASM**: Output `moduleName.wasm`.
+
+## Development
+
+```sh
+# Fetch dependencies
+dart pub get
+
+# Run static analysis
+dart analyze
+
+# Validate package publishing prerequisites
+dart pub publish --dry-run
+```
+
+## Documentation
+
+- [Agent Guide](AGENTS.md)
+- [Release History](CHANGELOG.md)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
