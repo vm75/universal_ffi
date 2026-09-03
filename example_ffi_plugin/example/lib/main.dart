@@ -50,7 +50,7 @@ class _AsyncRunnerWidgetState extends State<AsyncRunnerWidget> {
   // Simulated asynchronous runner.
   Future<Map<String, String>> fetchValues() async {
     await init(widget.libPath);
-    return {
+    final results = {
       'Library Name': getLibraryName(),
       'Hello String': hello(widget.libPath),
       'Size of Int': sizeOfInt().toString(),
@@ -58,6 +58,9 @@ class _AsyncRunnerWidgetState extends State<AsyncRunnerWidget> {
       'Size of Pointer': sizeOfPointer().toString(),
       'Static Init Check': staticInitCheck().toString(),
     };
+    // ignore: avoid_print
+    print('[RESULT] ${widget.libPath}: $results');
+    return results;
   }
 
   // Load data using the asynchronous runner
