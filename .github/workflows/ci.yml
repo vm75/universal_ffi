@@ -16,19 +16,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout wasm_ffi
-        uses: actions/checkout@v4
-        with:
-          repository: vm75/wasm_ffi
-          path: wasm_ffi-temp
-
-      - name: Set up local wasm_ffi sibling
-        run: |
-          mkdir -p ../wasm_ffi
-          cp -r wasm_ffi-temp/* ../wasm_ffi/
-          rm -rf wasm_ffi-temp
-          sed -i 's/version: 2.3.0/version: 2.4.0/' ../wasm_ffi/pubspec.yaml || true
-
       - name: Set up Dart
         uses: dart-lang/setup-dart@v1
         with:

@@ -15,10 +15,6 @@ dev_dependencies:
   lints: ^6.1.0
   test: ^1.29.0
 
-dependency_overrides:
-  wasm_ffi:
-    path: ../wasm_ffi
-
 topics:
  - ffi
  - wasm
