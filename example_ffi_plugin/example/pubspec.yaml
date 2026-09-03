@@ -19,5 +19,9 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
 
+dependency_overrides:
+  wasm_ffi:
+    path: ../../../wasm_ffi
+
 flutter:
   uses-material-design: true
