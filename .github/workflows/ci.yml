@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-and-test:
+    name: Validate & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze package
+        run: dart analyze
+
+      - name: Run VM tests
+        run: dart test
+
+      - name: Validate package dry-run
+        run: dart pub publish --dry-run
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Analyze Flutter plugin example
+        working-directory: example_ffi_plugin/example
+        run: |
+          flutter pub get
+          flutter analyze
+
+      - name: Build Flutter Web (dart2js)
+        working-directory: example_ffi_plugin/example
+        run: flutter build web
+
+      - name: Build Flutter Web (dart2wasm)
+        working-directory: example_ffi_plugin/example
+        run: flutter build web --wasm

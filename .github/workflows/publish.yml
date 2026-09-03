@@ -11,36 +11,36 @@ jobs:
   analyze-and-publish:
     name: Analyze and Publish Dart Packages
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        package:
-          - universal_ffi
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Set up Dart
         uses: dart-lang/setup-dart@v1
         with:
-          channel: stable
+          sdk: stable
 
-      - name: Check if relevant CHANGELOG is updated
+      - name: Check if CHANGELOG is updated
         id: changes
         run: |
-          if [[ ! $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep "^${{ matrix.package }}/CHANGELOG.md$") ]]; then
-            echo "skip=true" >> $GITHUB_ENV
+          if ! git diff --name-only HEAD~1 HEAD | grep -q '^CHANGELOG.md$'; then
+            echo "skip=true" >> "$GITHUB_ENV"
           fi
 
-      - name: Analyze ${{ matrix.package }}
+      - name: Analyze universal_ffi
         if: env.skip != 'true'
         run: |
           dart pub get
           dart analyze
           dart test
 
-      - name: Publish ${{ matrix.package }} (if valid)
+      - name: Publish universal_ffi (if valid)
         if: env.skip != 'true'
         env:
           PUB_TOKEN: ${{ secrets.PUB_TOKEN }}
@@ -49,5 +49,5 @@ jobs:
           dart pub publish --dry-run
 
           # Publish the package if validation succeeds
-          echo "Publishing ${{ matrix.package }} to pub.dev..."
+          echo "Publishing universal_ffi to pub.dev..."
           # dart pub publish --force
