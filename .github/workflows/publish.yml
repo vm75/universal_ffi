@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'CHANGELOG.md'
+      - 'pubspec.yaml'
 
 jobs:
   analyze-and-publish:
@@ -21,33 +21,69 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Checkout wasm_ffi
+        uses: actions/checkout@v4
+        with:
+          repository: vm75/wasm_ffi
+          path: wasm_ffi-temp
+
+      - name: Set up local wasm_ffi sibling
+        run: |
+          mkdir -p ../wasm_ffi
+          cp -r wasm_ffi-temp/* ../wasm_ffi/
+          rm -rf wasm_ffi-temp
+          sed -i 's/version: 2.3.0/version: 2.4.0/' ../wasm_ffi/pubspec.yaml || true
+
       - name: Set up Dart
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
 
-      - name: Check if CHANGELOG is updated
-        id: changes
+      - name: Check if version is updated
+        id: check-version
         run: |
-          if ! git diff --name-only HEAD~1 HEAD | grep -q '^CHANGELOG.md$'; then
-            echo "skip=true" >> "$GITHUB_ENV"
+          CURRENT_VERSION=$(awk '/^version:/{print $2; exit}' pubspec.yaml)
+          PREV_VERSION=$(git show HEAD~1:pubspec.yaml 2>/dev/null | awk '/^version:/{print $2; exit}' || true)
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "Previous version: $PREV_VERSION"
+
+          if [ -z "$CURRENT_VERSION" ]; then
+            echo "Error: Could not determine current version from pubspec.yaml"
+            exit 1
           fi
 
+          if [ "$CURRENT_VERSION" = "$PREV_VERSION" ]; then
+            echo "Version in pubspec.yaml has not changed ($CURRENT_VERSION). Skipping publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Check if the version is already published on pub.dev
+          PUB_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://pub.dev/api/packages/universal_ffi/versions/$CURRENT_VERSION" || true)
+          if [ "$PUB_STATUS" = "200" ]; then
+            echo "Version $CURRENT_VERSION is already published on pub.dev. Skipping publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Version updated from '$PREV_VERSION' to '$CURRENT_VERSION'."
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+          echo "version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Analyze universal_ffi
-        if: env.skip != 'true'
+        if: steps.check-version.outputs.publish == 'true'
         run: |
           dart pub get
           dart analyze
           dart test
 
-      - name: Publish universal_ffi (if valid)
-        if: env.skip != 'true'
+      - name: Publish universal_ffi
+        if: steps.check-version.outputs.publish == 'true'
         env:
           PUB_TOKEN: ${{ secrets.PUB_TOKEN }}
         run: |
-          # Validate the package
+          echo "Validating package..."
           dart pub publish --dry-run
-
-          # Publish the package if validation succeeds
-          echo "Publishing universal_ffi to pub.dev..."
-          # dart pub publish --force
+          echo "Publishing universal_ffi version ${{ steps.check-version.outputs.version }} to pub.dev..."
+          dart pub publish --force

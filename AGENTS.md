@@ -12,7 +12,7 @@
 - `example_ffi_plugin/` — Flutter FFI plugin example showing multi-platform C/C++ builds with Emscripten and CMake.
 - `tool/update-version.sh` — Interactive versioning, changelog update, and release preparation script.
 - `.github/workflows/ci.yml` — Continuous integration testing and validation workflow.
-- `.github/workflows/publish.yml` — Workflow triggered on changelog updates for analysis, testing, and dry-run publishing.
+- `.github/workflows/publish.yml` — Workflow triggered on `pubspec.yaml` version updates for analysis, testing, and automated publishing.
 
 ## Working commands
 - Setup / Dependencies: `dart pub get`
